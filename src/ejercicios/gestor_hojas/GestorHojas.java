@@ -8,7 +8,6 @@ public class GestorHojas extends Thread {
 
 	private static List<String> lista = new ArrayList<>();
 	private static List<String> LS = Collections.synchronizedList(lista);
-
 	@Override
 	public void run() {
 		for (int i = 0; i < 10; i++) {
@@ -20,7 +19,6 @@ public class GestorHojas extends Thread {
 			}
 		}
 	}
-
 	public static void main(String[] args) {
 		for (int i = 0; i < 10; i++) {
 			new GestorHojas().start();
