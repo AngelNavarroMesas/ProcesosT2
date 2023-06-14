@@ -23,22 +23,22 @@ public class Filosofo extends Thread{
         while(true){
             this.pensando();
             if(this.indiceComensal==5){
-                this.mesa.cogerTenedores(4);
+                this.mesa.cogerPalillos(4);
             }else{
-                this.mesa.cogerTenedores(this.indiceComensal);
+                this.mesa.cogerPalillos(this.indiceComensal);
             }
             this.comiendo();
-            System.out.println("Filosofo " + comensal +  " deja de comer, tenedores libres: " + (this.mesa.tenedorIzquierda(this.indiceComensal) + 1) + ", " + (this.mesa.tenedorDerecha(this.indiceComensal) + 1) );
+            System.out.println("Filosofo "+comensal+" deja de comer, tenedores libres: "+(this.mesa.PalilloIzquierda(this.indiceComensal)+1)+ ", " +(this.mesa.PalilloDerecha(this.indiceComensal)+1));
             if(this.indiceComensal==5){
-                this.mesa.dejarTenedores(4);
+                this.mesa.soltarPalillos(4);
             }else{
-                this.mesa.dejarTenedores(this.indiceComensal);
+                this.mesa.soltarPalillos(this.indiceComensal);
             }
         }
     }
 
     public void pensando(){
-        System.out.println("Filosofo " + comensal + " esta pensando");
+        System.out.println("Filosofo "+comensal+" esta pensando");
         try {
             this.sleep((long) (Math.random()*5000));
         } catch (InterruptedException e) {
@@ -47,7 +47,7 @@ public class Filosofo extends Thread{
     }
 
     public void comiendo(){
-        System.out.println("Filosofo " + comensal + " esta comiendo");
+        System.out.println("Filosofo "+comensal+" esta comiendo");
         try {
             this.sleep((long) (Math.random()*5000));
         } catch (InterruptedException e) {

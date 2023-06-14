@@ -5,30 +5,30 @@ public class Mesa {
     public Mesa(int numTenedores){
         this.tenedores = new boolean[numTenedores];
     }
-    public int tenedorIzquierda(int i){
+    public int PalilloIzquierda(int i){
         return i;
     }
-    public int tenedorDerecha(int i){
+    public int PalilloDerecha(int i){
         if(i == 0){
             return this.tenedores.length - 1;
         }else{
             return i - 1;
         }
     }
-    public synchronized void cogerTenedores(int comensal){
-        while(tenedores[tenedorIzquierda(comensal)] || tenedores[tenedorDerecha(comensal)]){
+    public synchronized void cogerPalillos(int comensal){
+        while(tenedores[PalilloIzquierda(comensal)] || tenedores[PalilloDerecha(comensal)]){
             try {
                 wait(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        tenedores[tenedorIzquierda(comensal)] = true;
-        tenedores[tenedorDerecha(comensal)] = true;
+        tenedores[PalilloIzquierda(comensal)] = true;
+        tenedores[PalilloDerecha(comensal)] = true;
     }
-    public synchronized void dejarTenedores(int comensal){
-        tenedores[tenedorIzquierda(comensal)] = false;
-        tenedores[tenedorDerecha(comensal)] = false;
+    public synchronized void soltarPalillos(int comensal){
+        tenedores[PalilloIzquierda(comensal)] = false;
+        tenedores[PalilloDerecha(comensal)] = false;
         this.notifyAll();
     }
 }
