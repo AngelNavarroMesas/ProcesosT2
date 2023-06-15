@@ -28,7 +28,7 @@ public class Filosofo extends Thread{
                 this.mesa.cogerPalillos(this.indiceComensal);
             }
             this.comiendo();
-            System.out.println("Filosofo "+comensal+" deja de comer, tenedores libres: "+(this.mesa.PalilloIzquierda(this.indiceComensal)+1)+ ", " +(this.mesa.PalilloDerecha(this.indiceComensal)+1));
+            System.out.println("Filosofo "+comensal+" deja de comer, palillos libres: "+(this.mesa.PalilloIzquierda(this.indiceComensal)+1)+ ", " +(this.mesa.PalilloDerecha(this.indiceComensal)+1));
             if(this.indiceComensal==5){
                 this.mesa.soltarPalillos(4);
             }else{
