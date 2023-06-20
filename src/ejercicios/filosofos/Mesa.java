@@ -1,34 +1,35 @@
 package ejercicios.filosofos;
 
 public class Mesa {
-    private boolean[] palillos;
-    public Mesa(int numTenedores){
-        this.palillos = new boolean[numTenedores];
-    }
-    public int PalilloIzquierda(int i){
-        return i;
-    }
-    public int PalilloDerecha(int i){
-        if(i == 0){
-            return this.palillos.length - 1;
+    public Boolean[] palillos;
+
+    public int palillo2(int palillo){
+        if(palillo+1 == this.palillos.length){
+            return 0;
         }else{
-            return i - 1;
+            return palillo + 1;
         }
     }
-    public synchronized void cogerPalillos(int comensal){
-        while(palillos[PalilloIzquierda(comensal)] || palillos[PalilloDerecha(comensal)]){
+
+    public synchronized void cogerPalillos(int filosofo){
+
+        while(palillos[filosofo] || palillos[palillo2(filosofo)]){
             try {
-                wait(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                wait();
+            } catch (Exception e) {
+                System.out.println(e);
             }
         }
-        palillos[PalilloIzquierda(comensal)] = true;
-        palillos[PalilloDerecha(comensal)] = true;
+        palillos[filosofo] = true;
+        palillos[palillo2(filosofo)] = true;
+        System.out.println("El "+Thread.currentThread().getName() +" esta comiendo con los palillos: "+filosofo +" y "+ palillo2(filosofo));
     }
-    public synchronized void soltarPalillos(int comensal){
-        palillos[PalilloIzquierda(comensal)] = false;
-        palillos[PalilloDerecha(comensal)] = false;
-        this.notifyAll();
+
+    public synchronized void dejarPalillos(int filosofo){
+        palillos[filosofo] = false;
+        palillos[palillo2(filosofo)] = false;
+        System.out.println("El "+Thread.currentThread().getName() +" ha terminado de comer" + ", palillos libres: "+filosofo +" y "+ palillo2(filosofo));
+        notifyAll();
     }
+
 }

@@ -1,57 +1,40 @@
 package ejercicios.filosofos;
 
-public class Filosofo extends Thread{
+public class Filosofo extends Thread {
     private Mesa mesa;
-    private int comensal;
-    private int indiceComensal;
+    private int numFilosofo;
 
-    public Filosofo(Mesa m, int comensal){
-        this.mesa = m;
-        this.comensal = comensal;
-        this.indiceComensal = comensal + 1;
+    public Filosofo(Mesa mesa, int numFilosofo){
+        this.mesa = mesa;
+        this.numFilosofo = numFilosofo;
     }
-    public static void main(String[] args) {
-        Mesa m = new Mesa(5);
 
-        for (int i = 0; i < 5; i++) {
-            Filosofo f = new Filosofo(m, i);
-            f.start();
-        }
-    }
-    public void run(){
-
+    public synchronized void run(){
         while(true){
-            this.pensando();
-            if(this.indiceComensal==5){
-                this.mesa.cogerPalillos(4);
-            }else{
-                this.mesa.cogerPalillos(this.indiceComensal);
+            System.out.println("El "+Thread.currentThread().getName() +" está pensando");
+            try{
+                Thread.sleep(3000);
+            }catch (Exception e){
+                System.out.println(e);
             }
-            this.comiendo();
-            System.out.println("Filosofo "+comensal+" deja de comer, palillos libres: "+(this.mesa.PalilloIzquierda(this.indiceComensal)+1)+ ", " +(this.mesa.PalilloDerecha(this.indiceComensal)+1));
-            if(this.indiceComensal==5){
-                this.mesa.soltarPalillos(4);
-            }else{
-                this.mesa.soltarPalillos(this.indiceComensal);
+            this.mesa.cogerPalillos(this.numFilosofo);
+            try{
+                Thread.sleep(3000);
+            }catch (Exception e){
+                System.out.println(e);
             }
+            this.mesa.dejarPalillos(this.numFilosofo);
         }
     }
 
-    public void pensando(){
-        System.out.println("Filosofo "+comensal+" esta pensando");
-        try {
-            this.sleep((long) (Math.random()*5000));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void comiendo(){
-        System.out.println("Filosofo "+comensal+" esta comiendo");
-        try {
-            this.sleep((long) (Math.random()*5000));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public static void main(String[] args) {
+        Mesa mesa = new Mesa();
+        mesa.palillos = new Boolean[]{false, false, false, false, false};
+        for (int i = 0; i < 5; i++) {
+            Filosofo f = new Filosofo(mesa, i);
+            Thread h = new Thread(f);
+            h.setName("filosofo "+i);
+            h.start();
         }
     }
 }
